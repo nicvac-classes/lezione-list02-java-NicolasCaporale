@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 public class Lista<T> {
     private Nodo<T> head;
 
@@ -39,32 +41,37 @@ public class Lista<T> {
         corrente.setNext(nuovoNodo);
     }
 
-    public void aggiungiPosizione(T valore, int posizione) throws IndexOutOfBoundsException {
+    public void aggiungiPosizione(T valore, int posizione){
         if (posizione == 0) {
             aggiungiCoda(valore);
-        } else {
-
-            Nodo<T> corrente = head;
-            int tette = 0;
-            while (corrente.getNext() != null && tette < posizione - 1) {
-                corrente = corrente.getNext();
-                ++tette;
-            }
-
-            if (tette < posizione) {
-                throw new IndexOutOfBoundsException("Posizione non valida");
-            }
-            Nodo<T> nuovoNodo = new Nodo<>(valore);
-            nuovoNodo.setNext(corrente.getNext());
-            corrente.setNext(nuovoNodo);
+            return;
         }
+
+        if (posizione < 0) {
+            throw new IndexOutOfBoundsException("Posizione sotto zero");
+        }
+
+        Nodo<T> corrente = head;
+        int contPos = 0;
+        while (corrente.getNext() != null && contPos < posizione - 1) {
+            corrente = corrente.getNext();
+            ++contPos;
+        }
+
+        if (contPos < posizione) {
+            throw new IndexOutOfBoundsException("Posizione non valida");
+        }
+        Nodo<T> nuovoNodo = new Nodo<>(valore);
+        nuovoNodo.setNext(corrente.getNext());
+        corrente.setNext(nuovoNodo);
+
     }
 
     public T leggiTesta() {
         if (head == null) {
             throw new NoSuchElementException("Lista vuota");
         }
-        return head.dato;
+        return head.getValore();
     }
 
 }
