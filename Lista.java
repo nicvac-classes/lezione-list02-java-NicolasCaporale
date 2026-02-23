@@ -53,12 +53,12 @@ public class Lista<T> {
 
         Nodo<T> corrente = head;
         int contPos = 0;
-        while (corrente.getNext() != null && contPos < posizione - 1) {
+        while (corrente != null && contPos < posizione - 1) {
             corrente = corrente.getNext();
             ++contPos;
         }
 
-        if (contPos < posizione) {
+        if (corrente == null) {
             throw new IndexOutOfBoundsException("Posizione non valida");
         }
         Nodo<T> nuovoNodo = new Nodo<>(valore);
