@@ -74,4 +74,19 @@ public class Lista<T> {
         return head.getValore();
     }
 
+    public T leggiCoda() {
+        if(head == null) {
+            throw new NoSuchElementException("Lista vuota");   
+        }
+
+        Nodo<T> curr = head;
+
+        while (curr.getNext() != null)
+        {
+            curr.setNext(curr.getNext());
+        }
+
+        return curr.getValore();
+    }
+
 }
