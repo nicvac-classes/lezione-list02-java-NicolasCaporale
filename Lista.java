@@ -88,5 +88,15 @@ public class Lista<T> {
 
         return curr.getValore();
     }
+    public T leggiPosizione(int pos) {
+        if (head == null) {
+            throw new NoSuchElementException("lista piena");
+        }
+        Nodo<T> curr = head;
+        while (corrente != null && contPos < posizione){
+            curr = head.next
+        }
+        return curr.getDato();
+    }
 
 }
