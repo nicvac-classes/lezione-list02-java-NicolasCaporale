@@ -16,10 +16,7 @@ public class Lista<T> {
     }
 
     public boolean isEmpty() {
-        if (head == null) {
-            return true;
-        }
-        return false;
+        return head == null;
     }
 
     public void aggiungiTesta(T valore) {
@@ -89,4 +86,73 @@ public class Lista<T> {
         return curr.getValore();
     }
 
+    public T leggiInPosizione(int posizione) {
+        if (posizione < 0) {
+            throw new IndexOutOfBoundsException("Posizione negativa");
+        }
+        
+        Nodo<T> corrente = head;
+        int i = 0;
+        
+        while (corrente != null && i < posizione) {
+            corrente = corrente.getNext();
+            i++;
+        }
+        
+        if (corrente == null) {
+            throw new IndexOutOfBoundsException("Posizione oltre la fine della lista");
+        }
+        
+        return corrente.getValore();
+    }
+
+    public int size()
+    {
+        int cont = 0;
+        Nodo<T> curr = head;
+
+        while(curr != null)
+        {
+            ++cont;
+            curr = curr.getNext();
+        }
+
+        return cont;
+    }
+
+    public int indexOf(int pos)
+    {
+        if(pos < 0)
+        {
+            throw new IndexOutOfBoundsException("posizione negativa");
+        }
+        Nodo<T> curr = head;
+        int cont = 0;
+        while(curr != null && cont < pos)
+        {
+            ++cont;
+            curr = curr.getNext();
+        }
+        
+        if(curr == null)
+        {
+            throw new IndexOutOfBoundsException("Posizione non valida");
+        }
+        return cont;
+    }
+
+
+    public boolean contiene(int elemento)
+    {
+        Nodo<T> curr = head;
+        while(curr != null)
+        {
+            if(curr.getValore().equals(elemento))
+            {
+                return true;
+            }
+            curr = curr.getNext();
+        }
+        return false;
+    }
 }
