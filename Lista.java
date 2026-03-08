@@ -1,6 +1,8 @@
+
 import java.util.NoSuchElementException;
 
 public class Lista<T> {
+
     private Nodo<T> head;
 
     public Nodo<T> getHead() {
@@ -31,36 +33,36 @@ public class Lista<T> {
             head = nuovoNodo;
             return;
         }
-        Nodo<T> corrente = head;
-        while (corrente.getNext() != null) {
-            corrente = corrente.getNext();
+        Nodo<T> curr = head;
+        while (curr.getNext() != null) {
+            curr = curr.getNext();
         }
-        corrente.setNext(nuovoNodo);
+        curr.setNext(nuovoNodo);
     }
 
-    public void aggiungiPosizione(T valore, int posizione){
-        if (posizione == 0) {
+    public void aggiungipos(T valore, int pos) {
+        if (pos == 0) {
             aggiungiCoda(valore);
             return;
         }
 
-        if (posizione < 0) {
-            throw new IndexOutOfBoundsException("Posizione sotto zero");
+        if (pos < 0) {
+            throw new IndexOutOfBoundsException("pos sotto zero");
         }
 
-        Nodo<T> corrente = head;
+        Nodo<T> curr = head;
         int contPos = 0;
-        while (corrente != null && contPos < posizione - 1) {
-            corrente = corrente.getNext();
+        while (curr != null && contPos < pos - 1) {
+            curr = curr.getNext();
             ++contPos;
         }
 
-        if (corrente == null) {
-            throw new IndexOutOfBoundsException("Posizione non valida");
+        if (curr == null) {
+            throw new IndexOutOfBoundsException("pos non valida");
         }
         Nodo<T> nuovoNodo = new Nodo<>(valore);
-        nuovoNodo.setNext(corrente.getNext());
-        corrente.setNext(nuovoNodo);
+        nuovoNodo.setNext(curr.getNext());
+        curr.setNext(nuovoNodo);
 
     }
 
@@ -72,47 +74,44 @@ public class Lista<T> {
     }
 
     public T leggiCoda() {
-        if(head == null) {
-            throw new NoSuchElementException("Lista vuota");   
+        if (head == null) {
+            throw new NoSuchElementException("Lista vuota");
         }
 
         Nodo<T> curr = head;
 
-        while (curr.getNext() != null)
-        {
+        while (curr.getNext() != null) {
             curr.setNext(curr.getNext());
         }
 
         return curr.getValore();
     }
 
-    public T leggiInPosizione(int posizione) {
-        if (posizione < 0) {
-            throw new IndexOutOfBoundsException("Posizione negativa");
+    public T leggiInpos(int pos) {
+        if (pos < 0) {
+            throw new IndexOutOfBoundsException("pos negativa");
         }
-        
-        Nodo<T> corrente = head;
+
+        Nodo<T> curr = head;
         int i = 0;
-        
-        while (corrente != null && i < posizione) {
-            corrente = corrente.getNext();
+
+        while (curr != null && i < pos) {
+            curr = curr.getNext();
             i++;
         }
-        
-        if (corrente == null) {
-            throw new IndexOutOfBoundsException("Posizione oltre la fine della lista");
+
+        if (curr == null) {
+            throw new IndexOutOfBoundsException("pos oltre la fine della lista");
         }
-        
-        return corrente.getValore();
+
+        return curr.getValore();
     }
 
-    public int size()
-    {
+    public int size() {
         int cont = 0;
         Nodo<T> curr = head;
 
-        while(curr != null)
-        {
+        while (curr != null) {
             ++cont;
             curr = curr.getNext();
         }
@@ -120,39 +119,84 @@ public class Lista<T> {
         return cont;
     }
 
-    public int indexOf(int pos)
-    {
-        if(pos < 0)
-        {
-            throw new IndexOutOfBoundsException("posizione negativa");
+    public int indexOf(int pos) {
+        if (pos < 0) {
+            throw new IndexOutOfBoundsException("pos negativa");
         }
         Nodo<T> curr = head;
         int cont = 0;
-        while(curr != null && cont < pos)
-        {
+        while (curr != null && cont < pos) {
             ++cont;
             curr = curr.getNext();
         }
-        
-        if(curr == null)
-        {
-            throw new IndexOutOfBoundsException("Posizione non valida");
+
+        if (curr == null) {
+            throw new IndexOutOfBoundsException("pos non valida");
         }
         return cont;
     }
 
-
-    public boolean contiene(int elemento)
-    {
+    public boolean contiene(int elemento) {
         Nodo<T> curr = head;
-        while(curr != null)
-        {
-            if(curr.getValore().equals(elemento))
-            {
+        while (curr != null) {
+            if (curr.getValore().equals(elemento)) {
                 return true;
             }
             curr = curr.getNext();
         }
         return false;
+    }
+
+    public boolean cancella(T dato) {
+        if (head == null) {
+            return false;
+        }
+
+        if (head.getValore().equals(dato)) {
+            head = head.getNext();
+            return true;
+        }
+
+        Nodo<T> precedente = head;
+        Nodo<T> curr = head.getNext();
+
+        while (curr != null) {
+            if (curr.getValore().equals(dato)) {
+                precedente.setNext(curr.getNext());
+                return true;
+            }
+            precedente = curr;
+            curr = curr.getNext();
+        }
+
+        return false;
+    }
+
+    public T cancellaInpos(int pos) {
+        if (pos < 0 || head == null) {
+            throw new IndexOutOfBoundsException("pos non valida");
+        }
+
+        if (pos == 0) {
+            T dato = head.getValore();
+            head = head.getNext();
+            return dato;
+        }
+
+        Nodo<T> precedente = head;
+        int i = 0;
+
+        while (precedente.getNext() != null && i < pos - 1) {
+            precedente = precedente.getNext();
+            i++;
+        }
+
+        if (precedente.getNext() == null) {
+            throw new IndexOutOfBoundsException("pos oltre la fine della lista");
+        }
+
+        T dato = precedente.getNext().getValore();
+        precedente.setNext(precedente.getNext().getNext());
+        return dato;
     }
 }
