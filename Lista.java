@@ -199,4 +199,32 @@ public class Lista<T> {
         precedente.setNext(precedente.getNext().getNext());
         return dato;
     }
+
+    public void concatena(Lista<T> listaIn) {
+        if (listaIn == null || listaIn.head == null) {
+            return;
+        }
+
+        if (head == null) {
+            head = listaIn.head;
+            return;
+        }
+
+        Nodo<T> curr = head;
+        while (curr.getNext() != null) {
+            curr = curr.getNext();
+        }
+        curr.setNext(listaIn.head);
+    }
+
+    public String toString() {
+        Nodo<T> curr = head;
+        String s = "";
+        while (curr != null) {
+            s += curr.getValore() + "-->";
+            curr = curr.getNext();
+        }
+        s += "null";
+        return s;
+    }
 }
